@@ -2,6 +2,7 @@ init: docker-down-clear docker-pull docker-build docker-up composer-install wait
 up: docker-up
 down: docker-down
 restart: down up
+check: lint analyze test
 
 docker-up:
 	docker-compose up -d
@@ -26,3 +27,16 @@ wait-db:
 
 migrations:
 	docker-compose run --rm cli php yii migrate --interactive=0
+
+lint:
+	docker-compose run --rm cli composer lint
+	docker-compose run --rm cli composer cs-check
+
+cs-fix:
+	docker-compose run --rm cli composer cs-fix
+
+analyze:
+	docker-compose run --rm cli composer phpstan
+
+test:
+	docker-compose run --rm cli composer test

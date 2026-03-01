@@ -1,0 +1,12 @@
+parameters:
+    level: 5
+    bootstrapFiles:
+        - vendor/yiisoft/yii2/Yii.php
+    paths:
+        - /app
+    excludePaths:
+        - runtime
+        - tests
+        - vendor
+        - config
+        - views

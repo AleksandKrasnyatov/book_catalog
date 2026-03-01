@@ -2,7 +2,10 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\base\BaseObject;
+use yii\web\IdentityInterface;
+
+class User extends BaseObject implements IdentityInterface
 {
     public $id;
     public $username;
@@ -33,6 +36,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
+        /** @phpstan-ignore-next-line */
         return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
@@ -43,6 +47,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     {
         foreach (self::$users as $user) {
             if ($user['accessToken'] === $token) {
+                /** @phpstan-ignore-next-line */
                 return new static($user);
             }
         }
@@ -60,6 +65,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     {
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
+                /** @phpstan-ignore-next-line */
                 return new static($user);
             }
         }

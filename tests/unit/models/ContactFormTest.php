@@ -3,9 +3,10 @@
 namespace tests\unit\models;
 
 use app\models\ContactForm;
+use Codeception\Test\Unit;
 use yii\mail\MessageInterface;
 
-class ContactFormTest extends \Codeception\Test\Unit
+class ContactFormTest extends Unit
 {
     /**
      * @var \UnitTester
