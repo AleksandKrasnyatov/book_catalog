@@ -1,6 +1,6 @@
 {
-    "name": "yiisoft/yii2-app-basic",
-    "description": "Yii 2 Basic Project Template",
+    "name": "aleksand-krasnyatov/book_catalog",
+    "description": "book catalog project",
     "keywords": ["yii2", "framework", "basic", "project template"],
     "homepage": "https://www.yiiframework.com/",
     "type": "project",
@@ -13,6 +13,16 @@
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "App\\": "/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.45",
