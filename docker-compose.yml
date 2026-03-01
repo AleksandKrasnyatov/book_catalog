@@ -1,9 +1,50 @@
-version: '2'
 services:
-  php:
-    image: yiisoftware/yii2-php:7.4-apache
-    volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./:/app:delegated
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: "${CONTAINER_NGINX}"
     ports:
-      - '8000:80'
+      - "${NGINX_PORT:-80}:80"
+    volumes:
+      - ./:/app
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: ./docker/php-fpm
+    env_file:
+      - .env
+    container_name: "${CONTAINER_APP}"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  cli:
+    build:
+      context: ./docker/php-cli
+    env_file:
+      - .env
+    container_name: "${CONTAINER_CLI}"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: "${CONTAINER_DB}"
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+
+volumes:
+  mysql:
