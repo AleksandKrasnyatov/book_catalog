@@ -10,3 +10,4 @@ parameters:
         - vendor
         - config
         - views
+        - smspilot

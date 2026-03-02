@@ -3,6 +3,7 @@
     <description>PHP CodeSniffer configuration for Yii2 project</description>
 
     <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/smspilot/*</exclude-pattern>
     <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/config/*</exclude-pattern>
     <exclude-pattern>*/views/*</exclude-pattern>

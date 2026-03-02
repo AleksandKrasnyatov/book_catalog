@@ -32,6 +32,10 @@ return [
         'user' => [
             'identityClass' => 'app\models\User',
         ],
+        'queue' => [
+            'class' => \yii\queue\file\Queue::class,
+            'path' => '@runtime/queue'
+        ],
         'request' => [
             'cookieValidationKey' => 'test',
             'enableCsrfValidation' => false,

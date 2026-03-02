@@ -40,7 +40,15 @@ class SendNewBookSmsJob implements JobInterface
         }
 
         $text = sprintf('У автора "%s" новая книга: "%s".', $author->name, $book->title);
-        new SmsPilotService()->send($phones, $text);
+        /** @phpstan-ignore-next-line  */
+        $result = sms($phones, $text);
+
+        if ($result === false) {
+            /** @phpstan-ignore-next-line  */
+            $error = sms_error() ?: 'Unknown SMSPilot error';
+            Yii::error($error);
+            return;
+        }
 
         Yii::info(
             sprintf(

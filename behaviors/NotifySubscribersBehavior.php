@@ -28,6 +28,7 @@ class NotifySubscribersBehavior extends Behavior
             return;
         }
 
+        /** @phpstan-ignore-next-line  */
         Yii::$app->queue->push(new SendNewBookSmsJob(
             $bookAuthor->book_id,
             $bookAuthor->author_id
