@@ -1,4 +1,4 @@
-init: docker-down-clear docker-pull docker-build docker-up composer-install wait-db migrations
+init: docker-down-clear docker-pull docker-build docker-up composer-install wait-db migrate-up
 up: docker-up
 down: docker-down
 restart: down up
@@ -25,7 +25,7 @@ composer-install:
 wait-db:
 	docker compose run --rm cli wait-for-it db:3306 -t 30
 
-migrations:
+migrate-up:
 	docker-compose run --rm cli php yii migrate --interactive=0
 
 lint:

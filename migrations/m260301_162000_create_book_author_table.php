@@ -7,10 +7,7 @@ use yii\db\Migration;
  */
 class m260301_162000_create_book_author_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%book_author}}', [
             'id' => $this->primaryKey(),
@@ -37,10 +34,7 @@ class m260301_162000_create_book_author_table extends Migration
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function safeDown(): void
     {
         $this->dropForeignKey('fk-book_author-author_id', 'book_author');
         $this->dropForeignKey('fk-book_author-book_id', 'book_author');

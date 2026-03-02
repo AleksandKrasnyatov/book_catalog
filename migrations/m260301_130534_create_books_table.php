@@ -7,10 +7,7 @@ use yii\db\Migration;
  */
 class m260301_130534_create_books_table extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function safeUp()
+    public function safeUp(): void
     {
         $this->createTable('{{%books}}', [
             'id' => $this->primaryKey(),
@@ -24,10 +21,7 @@ class m260301_130534_create_books_table extends Migration
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function safeDown(): void
     {
         $this->dropTable('{{%books}}');
     }
