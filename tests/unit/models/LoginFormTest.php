@@ -1,12 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\unit\models;
 
 use app\models\LoginForm;
+use app\tests\fixtures\UserFixture;
+use Codeception\Test\Unit;
 
-class LoginFormTest extends \Codeception\Test\Unit
+class LoginFormTest extends Unit
 {
     private $model;
+
+    public function _fixtures(): array
+    {
+        return [
+            'users' => UserFixture::class,
+        ];
+    }
 
     protected function _after()
     {

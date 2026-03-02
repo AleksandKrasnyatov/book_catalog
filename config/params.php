@@ -4,4 +4,6 @@ return [
     'adminEmail' => 'admin@example.com',
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
+    'smsPilotApiKey' => getenv('SMSPILOT_APIKEY') ?: 'smspilot_apikey',
+    'smsPilotFrom' => getenv('SMSPILOT_FROM') ?: '',
 ];

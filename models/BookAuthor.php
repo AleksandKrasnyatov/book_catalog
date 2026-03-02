@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\models;
 
+use app\behaviors\NotifySubscribersBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -14,6 +17,13 @@ use yii\db\ActiveRecord;
  */
 class BookAuthor extends ActiveRecord
 {
+    public function behaviors(): array
+    {
+        return [
+            NotifySubscribersBehavior::class,
+        ];
+    }
+
     public static function tableName(): string
     {
         return '{{%book_author}}';

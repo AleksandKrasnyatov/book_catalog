@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace app\models;
 
 use Yii;
@@ -7,7 +9,6 @@ use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -26,27 +27,10 @@ class User extends ActiveRecord implements IdentityInterface
         return '{{%user}}';
     }
 
-    public function rules(): array
-    {
-        return [
-            [['username', 'password_hash', 'auth_key'], 'required'],
-            [['username', 'email'], 'string', 'max' => 255],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['created_at', 'updated_at'], 'integer'],
-        ];
-    }
-
     public function behaviors(): array
     {
         return [
-            'timestamp' => [
-                'class' => TimestampBehavior::class,
-                'attributes' => [
-                    BaseActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    BaseActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-            ],
+            TimestampBehavior::class
         ];
     }
 

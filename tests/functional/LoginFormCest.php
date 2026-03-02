@@ -1,7 +1,16 @@
 <?php
 
+use app\tests\fixtures\UserFixture;
+
 class LoginFormCest
 {
+    public function _fixtures(): array
+    {
+        return [
+            'users' => UserFixture::class,
+        ];
+    }
+
     public function _before(\FunctionalTester $I)
     {
         $I->amOnRoute('site/login');

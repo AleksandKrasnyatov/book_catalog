@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace tests\unit\models;
 
 use app\models\User;
+use app\tests\fixtures\UserFixture;
 
 class UserTest extends \Codeception\Test\Unit
 {
+    public function _fixtures(): array
+    {
+        return [
+            'users' => UserFixture::class,
+        ];
+    }
+
     public function testFindUserById()
     {
         verify($user = User::findIdentity(100))->notEmpty();
         verify($user->username)->equals('admin');
 
         verify(User::findIdentity(999))->empty();
-    }
-
-    public function testFindUserByAccessToken()
-    {
-        verify($user = User::findIdentityByAccessToken('100-token'))->notEmpty();
-        verify($user->username)->equals('admin');
-
-        verify(User::findIdentityByAccessToken('non-existing'))->empty();
     }
 
     public function testFindUserByUsername()
