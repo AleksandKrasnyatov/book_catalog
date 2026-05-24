@@ -7,7 +7,6 @@ namespace app\jobs;
 use app\models\Author;
 use app\models\Book;
 use app\models\Subscription;
-use app\services\SmsPilotService;
 use Yii;
 use yii\queue\JobInterface;
 
@@ -21,7 +20,6 @@ class SendNewBookSmsJob implements JobInterface
 
     public function execute($queue): void
     {
-        echo '123';
         $author = Author::findOne($this->authorId);
         $book = Book::findOne($this->bookId);
 
@@ -58,6 +56,5 @@ class SendNewBookSmsJob implements JobInterface
                 count($phones)
             )
         );
-        echo 'op';
     }
 }
