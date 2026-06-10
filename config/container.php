@@ -27,26 +27,26 @@ use app\Infrastructure\Persistence\Repository\AuthorRepository;
 use app\Infrastructure\Persistence\Repository\BookAuthorRepository;
 use app\Infrastructure\Persistence\Repository\BookRepository;
 use app\Infrastructure\Persistence\Repository\SubscriptionRepository;
-use yii\di\Container;
 
-return static function (Container $container): void {
-    $container->set(AuthorRepositoryInterface::class, AuthorRepository::class);
-    $container->set(BookRepositoryInterface::class, BookRepository::class);
-    $container->set(BookAuthorRepositoryInterface::class, BookAuthorRepository::class);
-    $container->set(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
+return [
+    'singletons' => [
+        AuthorRepositoryInterface::class => AuthorRepository::class,
+        BookRepositoryInterface::class => BookRepository::class,
+        BookAuthorRepositoryInterface::class => BookAuthorRepository::class,
+        SubscriptionRepositoryInterface::class => SubscriptionRepository::class,
 
-    $container->set(AuthorQueryInterface::class, AuthorQuery::class);
-    $container->set(BookQueryInterface::class, BookQuery::class);
-    $container->set(ReportQueryInterface::class, ReportQuery::class);
+        AuthorQueryInterface::class => AuthorQuery::class,
+        BookQueryInterface::class => BookQuery::class,
+        ReportQueryInterface::class => ReportQuery::class,
 
-    $container->set(TransactionManagerInterface::class, YiiTransactionManager::class);
-    $container->set(NewBookNotifierInterface::class, YiiNewBookNotifier::class);
-    $container->set(SmsGatewayInterface::class, SmsPilotGateway::class);
-    $container->set(PhotoUrlGeneratorInterface::class, WebPhotoUrlGenerator::class);
+        TransactionManagerInterface::class => YiiTransactionManager::class,
+        NewBookNotifierInterface::class => YiiNewBookNotifier::class,
+        SmsGatewayInterface::class => SmsPilotGateway::class,
+        PhotoUrlGeneratorInterface::class => WebPhotoUrlGenerator::class,
 
-    $container->set(FileStorageInterface::class, static fn() => new LocalFileStorage(
-        Yii::getAlias('@webroot/photos'),
-        new RandomFileNameGenerator(),
-    ));
-};
-
+        FileStorageInterface::class => static fn(): LocalFileStorage => new LocalFileStorage(
+            \Yii::getAlias('@webroot/photos'),
+            new RandomFileNameGenerator(),
+        ),
+    ],
+];

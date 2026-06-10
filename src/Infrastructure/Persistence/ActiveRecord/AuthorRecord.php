@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Infrastructure\Persistence\ActiveRecord;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
@@ -14,6 +15,13 @@ use yii\db\ActiveRecord;
  */
 final class AuthorRecord extends ActiveRecord
 {
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::class
+        ];
+    }
+
     public static function tableName(): string
     {
         return '{{%authors}}';

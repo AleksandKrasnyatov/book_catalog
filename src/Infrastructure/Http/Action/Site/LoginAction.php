@@ -18,9 +18,11 @@ final class LoginAction extends Action
         }
 
         $form = new LoginForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+        if ($form->load(Yii::$app->request->post()) && $form->login()) {
             return $this->controller->goBack();
         }
+
+        $form->password = '';
 
         return $this->controller->render('login', ['model' => $form]);
     }

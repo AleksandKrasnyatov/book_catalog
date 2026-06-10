@@ -10,6 +10,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ErrorAction;
 
 final class SiteController extends Controller
 {
@@ -33,7 +34,7 @@ final class SiteController extends Controller
         return [
             'login' => LoginAction::class,
             'logout' => LogoutAction::class,
-            'error' => ['class' => \yii\web\ErrorAction::class],
+            'error' => ['class' => ErrorAction::class],
         ];
     }
 

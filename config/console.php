@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$container = require __DIR__ . '/container.php';
 
 $config = [
     'id' => 'basic-console',
@@ -33,6 +34,7 @@ $config = [
         ],
     ],
     'params' => $params,
+    'container' => $container,
     'controllerMap' => [
         'queue' => [
             'class' => \yii\queue\file\Command::class,

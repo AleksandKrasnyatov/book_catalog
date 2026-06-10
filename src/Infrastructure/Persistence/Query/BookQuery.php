@@ -62,15 +62,15 @@ final readonly class BookQuery implements BookQueryInterface
             ->select(['a.name'])
             ->indexBy('a.id')
             ->innerJoin(['ba' => BookAuthorRecord::tableName()], 'ba.author_id = a.id')
-            ->where(['ba.book_id' => (int) $record->id])
+            ->where(['ba.book_id' => $record->id])
             ->column();
 
         $photo = $record->photo ? new PhotoName((string) $record->photo) : null;
 
         return new BookView(
-            (int) $record->id,
-            (string) $record->title,
-            (int) $record->year,
+            $record->id,
+            $record->title,
+            $record->year,
             $record->description,
             $record->isbn,
             $this->photos->url($photo),

@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/test_db.php';
+$container = require __DIR__ . '/container.php';
 
 /**
  * Application configuration shared by all test types
@@ -30,11 +31,14 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => 'app\Domain\models\User',
+            'identityClass' => 'app\Infrastructure\Persistence\ActiveRecord\User',
         ],
         'queue' => [
             'class' => \yii\queue\file\Queue::class,
             'path' => '@runtime/queue'
+        ],
+        'errorHandler' => [
+            'errorAction' => 'site/error',
         ],
         'request' => [
             'cookieValidationKey' => 'test',
@@ -48,4 +52,7 @@ return [
         ],
     ],
     'params' => $params,
+    'container' => $container,
+    'controllerNamespace' => 'app\Infrastructure\Http\Controller',
+    'viewPath' => '@app/src/Infrastructure/Http/View',
 ];

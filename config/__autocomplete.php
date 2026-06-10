@@ -28,7 +28,7 @@ class __Application
 }
 
 /**
- * @property \app\Domain\Entity\User $identity
+ * @property \app\Infrastructure\Persistence\ActiveRecord\User $identity
  */
 class __WebUser
 {

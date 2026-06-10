@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace tests\unit\models;
 
-use app\Domain\Entity\User;
+use app\Infrastructure\Persistence\ActiveRecord\User;
 use app\tests\fixtures\UserFixture;
+use Codeception\Test\Unit;
 
-class UserTest extends \Codeception\Test\Unit
+class UserTest extends Unit
 {
     public function _fixtures(): array
     {

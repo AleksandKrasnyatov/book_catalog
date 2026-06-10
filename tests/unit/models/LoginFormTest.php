@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace tests\unit\models;
 
-use app\Domain\Entity\LoginForm;
+use app\Infrastructure\Http\Form\LoginForm;
 use app\tests\fixtures\UserFixture;
 use Codeception\Test\Unit;
 

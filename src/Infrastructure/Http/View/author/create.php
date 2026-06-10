@@ -1,7 +1,22 @@
 <?php
 
-/** @var \app\Infrastructure\Http\Form\AuthorForm $model */
+/**
+ * @var View $this
+ * @var AuthorForm $model
+ */
 
+use app\Infrastructure\Http\Form\AuthorForm;
+use yii\helpers\Html;
+use yii\web\View;
+
+$this->title = 'Create Author';
+$this->params['breadcrumbs'][] = ['label' => 'Authors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Создать автора</h1>
+<div class="author-create">
+    <h1><?= Html::encode($this->title) ?></h1>
 
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+</div>

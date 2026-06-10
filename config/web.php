@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$container = require __DIR__ . '/container.php';
 
 $config = [
     'id' => 'basic',
@@ -20,7 +21,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\Domain\models\User',
+            'identityClass' => 'app\Infrastructure\Persistence\ActiveRecord\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -55,6 +56,9 @@ $config = [
         ],
     ],
     'params' => $params,
+    'container' => $container,
+    'controllerNamespace' => 'app\Infrastructure\Http\Controller',
+    'viewPath' => '@app/src/Infrastructure/Http/View',
 ];
 
 if (YII_ENV_DEV) {

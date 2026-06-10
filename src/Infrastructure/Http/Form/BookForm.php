@@ -13,7 +13,7 @@ final class BookForm extends Model
     public ?int $year = null;
     public ?string $description = null;
     public ?string $isbn = null;
-    public ?UploadedFile $photoFile = null;
+    public null|string|UploadedFile $photoFile = null;
     public bool $removePhoto = false;
     public array $authorIds = [];
 

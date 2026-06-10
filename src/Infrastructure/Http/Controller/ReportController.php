@@ -12,7 +12,7 @@ final class ReportController extends Controller
     public function actions(): array
     {
         return [
-            'index' => TopAuthorsAction::class,
+            'top-authors' => TopAuthorsAction::class,
         ];
     }
 }
