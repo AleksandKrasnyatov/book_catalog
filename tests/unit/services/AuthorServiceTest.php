@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
-use app\forms\AuthorForm;
-use app\models\Author;
-use app\services\AuthorService;
+use app\Application\services\AuthorService;
+use app\Domain\Entity\Author;
+use app\Infrastructure\Form\AuthorForm;
 use app\tests\fixtures\AuthorFixture;
 use app\tests\fixtures\BookAuthorFixture;
 use app\tests\fixtures\BookFixture;

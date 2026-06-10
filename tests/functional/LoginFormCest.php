@@ -1,5 +1,6 @@
 <?php
 
+use app\Infrastructure\Persistence\ActiveRecord\User;
 use app\tests\fixtures\UserFixture;
 
 class LoginFormCest
@@ -32,7 +33,7 @@ class LoginFormCest
     // demonstrates `amLoggedInAs` method
     public function internalLoginByInstance(\FunctionalTester $I)
     {
-        $I->amLoggedInAs(\app\models\User::findByUsername('admin'));
+        $I->amLoggedInAs(User::findByUsername('admin'));
         $I->amOnPage('/');
         $I->see('Выйти (admin)');
     }

@@ -30,7 +30,7 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\Domain\models\User',
         ],
         'queue' => [
             'class' => \yii\queue\file\Queue::class,

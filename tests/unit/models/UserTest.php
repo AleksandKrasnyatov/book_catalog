@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace tests\unit\models;
 
-use app\models\User;
+use app\Domain\Entity\User;
 use app\tests\fixtures\UserFixture;
 
 class UserTest extends \Codeception\Test\Unit

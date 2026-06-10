@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\tests\fixtures;
 
-use app\models\Book;
+use app\Domain\Entity\Book;
 use yii\test\ActiveFixture;
 
 class BookFixture extends ActiveFixture

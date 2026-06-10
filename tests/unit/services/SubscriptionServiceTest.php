@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
+use app\Application\services\SubscriptionService;
+use app\Domain\Entity\Subscription;
 use app\forms\SubscriptionForm;
-use app\models\Subscription;
-use app\services\SubscriptionService;
 use app\tests\fixtures\AuthorFixture;
 use app\tests\fixtures\SubscriptionFixture;
 use Codeception\Test\Unit;

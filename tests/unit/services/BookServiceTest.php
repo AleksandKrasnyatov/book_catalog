@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
+use app\Application\services\BookService;
+use app\Application\services\TransactionManager;
+use app\Domain\Entity\Book;
+use app\Domain\Entity\BookAuthor;
 use app\forms\BookForm;
-use app\models\Book;
-use app\models\BookAuthor;
-use app\services\BookService;
-use app\services\TransactionManager;
 use app\tests\fixtures\AuthorFixture;
 use app\tests\fixtures\BookAuthorFixture;
 use app\tests\fixtures\BookFixture;
