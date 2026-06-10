@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
-use app\Application\services\SubscriptionService;
-use app\Domain\Entity\Subscription;
-use app\forms\SubscriptionForm;
-use app\tests\fixtures\AuthorFixture;
-use app\tests\fixtures\SubscriptionFixture;
+use app\Application\UseCase\Command\Subscription\SubscribeToAuthorCommand;
+use app\Application\UseCase\Command\Subscription\SubscribeToAuthorHandler;
+use app\Infrastructure\Persistence\ActiveRecord\SubscriptionRecord;
 use Codeception\Test\Unit;
-use Exception;
+use tests\fixtures\AuthorFixture;
+use tests\fixtures\SubscriptionFixture;
+use Yii;
 
-class SubscriptionServiceTest extends Unit
+final class SubscriptionServiceTest extends Unit
 {
     public function _fixtures(): array
     {
@@ -22,19 +22,12 @@ class SubscriptionServiceTest extends Unit
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testSubscribeCreatesRecord(): void
     {
-        $service = new SubscriptionService();
-        $form = new SubscriptionForm();
-        $form->authorId = 1;
-        $form->phone = '+79009998877';
+        $handler = Yii::$container->get(SubscribeToAuthorHandler::class);
+        $handler->handle(new SubscribeToAuthorCommand(1, '+79009998877'));
 
-        $service->subscribe($form);
-
-        $subscription = Subscription::find()
+        $subscription = SubscriptionRecord::find()
             ->where(['author_id' => 1, 'phone' => '+79009998877'])
             ->one();
 

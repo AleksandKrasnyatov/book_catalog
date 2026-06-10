@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
-use app\Application\services\BookService;
-use app\Application\services\TransactionManager;
-use app\Domain\Entity\Book;
-use app\Domain\Entity\BookAuthor;
-use app\forms\BookForm;
-use app\tests\fixtures\AuthorFixture;
-use app\tests\fixtures\BookAuthorFixture;
-use app\tests\fixtures\BookFixture;
+use app\Application\UseCase\Command\Book\CreateBookCommand;
+use app\Application\UseCase\Command\Book\CreateBookHandler;
+use app\Application\UseCase\Command\Book\DeleteBookCommand;
+use app\Application\UseCase\Command\Book\DeleteBookHandler;
+use app\Application\UseCase\Command\Book\UpdateBookCommand;
+use app\Application\UseCase\Command\Book\UpdateBookHandler;
+use app\Infrastructure\Persistence\ActiveRecord\BookAuthorRecord;
+use app\Infrastructure\Persistence\ActiveRecord\BookRecord;
 use Codeception\Test\Unit;
+use tests\fixtures\AuthorFixture;
+use tests\fixtures\BookAuthorFixture;
+use tests\fixtures\BookFixture;
+use Yii;
 
-class BookServiceTest extends Unit
+final class BookServiceTest extends Unit
 {
     public function _fixtures(): array
     {
@@ -27,47 +31,52 @@ class BookServiceTest extends Unit
 
     public function testCreate(): void
     {
-        $service = new BookService(new TransactionManager());
-        $form = new BookForm();
-        $form->title = 'New Book';
-        $form->year = 2024;
-        $form->description = 'New description';
-        $form->isbn = 'ISBN-NEW';
-        $form->photo = 'new.jpg';
-        $form->authorIds = [1, 2];
+        $handler = Yii::$container->get(CreateBookHandler::class);
+        $book = $handler->handle(new CreateBookCommand(
+            'New Book',
+            2024,
+            'New description',
+            'ISBN-NEW',
+            null,
+            [1, 2],
+        ));
 
-        $book = $service->create($form);
+        verify($book->id())->notEmpty();
+        verify(BookRecord::findOne($book->id()?->value))->notEmpty();
 
-        verify($book->id)->notEmpty();
-        verify(Book::findOne($book->id))->notEmpty();
-        $authorIds = BookAuthor::find()->select('author_id')->where(['book_id' => $book->id])->column();
+        $authorIds = BookAuthorRecord::find()
+            ->select('author_id')
+            ->where(['book_id' => $book->id()?->value])
+            ->column();
         sort($authorIds);
         verify($authorIds)->equals([1, 2]);
     }
 
     public function testUpdate(): void
     {
-        $service = new BookService(new TransactionManager());
-        $book = Book::findOne(10);
-        $form = new BookForm($book);
-        $form->title = 'Updated Book';
-        $form->year = 2010;
-        $form->authorIds = [2];
+        $handler = Yii::$container->get(UpdateBookHandler::class);
+        $updated = $handler->handle(new UpdateBookCommand(
+            10,
+            'Updated Book',
+            2010,
+            'First book',
+            'ISBN-ONE',
+            null,
+            false,
+            [2],
+        ));
 
-        $updated = $service->update($book, $form);
-
-        verify($updated->title)->equals('Updated Book');
-        $authorIds = BookAuthor::find()->select('author_id')->where(['book_id' => 10])->column();
+        verify($updated->title()->value)->equals('Updated Book');
+        $authorIds = BookAuthorRecord::find()->select('author_id')->where(['book_id' => 10])->column();
         verify($authorIds)->equals([2]);
     }
 
     public function testDeleteBook(): void
     {
-        $service = new BookService(new TransactionManager());
+        $handler = Yii::$container->get(DeleteBookHandler::class);
+        $handler->handle(new DeleteBookCommand(11));
 
-        $service->deleteBook(11);
-
-        verify(Book::findOne(11))->empty();
-        verify(BookAuthor::find()->where(['book_id' => 11])->count())->equals(0);
+        verify(BookRecord::findOne(11))->empty();
+        verify(BookAuthorRecord::find()->where(['book_id' => 11])->count())->equals(0);
     }
 }

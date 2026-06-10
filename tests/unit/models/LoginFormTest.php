@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace tests\unit\models;
 
 use app\Infrastructure\Http\Form\LoginForm;
-use app\tests\fixtures\UserFixture;
+use tests\fixtures\UserFixture;
 use Codeception\Test\Unit;
 
 class LoginFormTest extends Unit

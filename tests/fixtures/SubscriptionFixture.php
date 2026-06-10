@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\tests\fixtures;
+namespace tests\fixtures;
 
-use app\Domain\Entity\Subscription;
+use app\Infrastructure\Persistence\ActiveRecord\SubscriptionRecord;
 use yii\test\ActiveFixture;
 
-class SubscriptionFixture extends ActiveFixture
+final class SubscriptionFixture extends ActiveFixture
 {
-    public $modelClass = Subscription::class;
+    public $modelClass = SubscriptionRecord::class;
     public $dataFile = '@tests/_data/subscription.php';
 }

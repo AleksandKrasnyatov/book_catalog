@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace tests\unit\services;
 
-use app\Application\services\AuthorService;
-use app\Domain\Entity\Author;
-use app\Infrastructure\Form\AuthorForm;
-use app\tests\fixtures\AuthorFixture;
-use app\tests\fixtures\BookAuthorFixture;
-use app\tests\fixtures\BookFixture;
+use app\Application\UseCase\Command\Author\CreateAuthorCommand;
+use app\Application\UseCase\Command\Author\CreateAuthorHandler;
+use app\Application\UseCase\Command\Author\DeleteAuthorCommand;
+use app\Application\UseCase\Command\Author\DeleteAuthorHandler;
+use app\Application\UseCase\Command\Author\UpdateAuthorCommand;
+use app\Application\UseCase\Command\Author\UpdateAuthorHandler;
+use app\Domain\Exception\DomainRuleException;
+use app\Infrastructure\Persistence\ActiveRecord\AuthorRecord;
 use Codeception\Test\Unit;
-use LogicException;
+use tests\fixtures\AuthorFixture;
+use tests\fixtures\BookAuthorFixture;
+use tests\fixtures\BookFixture;
+use Yii;
 
-class AuthorServiceTest extends Unit
+final class AuthorServiceTest extends Unit
 {
     public function _fixtures(): array
     {
@@ -26,46 +31,38 @@ class AuthorServiceTest extends Unit
 
     public function testCreate(): void
     {
-        $service = new AuthorService();
-        $form = new AuthorForm();
-        $form->name = 'New Author';
+        $handler = Yii::$container->get(CreateAuthorHandler::class);
+        $author = $handler->handle(new CreateAuthorCommand('New Author'));
 
-        $author = $service->create($form);
-
-        verify($author->id)->notEmpty();
-        verify($author->name)->equals('New Author');
-        verify(Author::findOne($author->id))->notEmpty();
+        verify($author->id())->notEmpty();
+        verify($author->name()->value)->equals('New Author');
+        verify(AuthorRecord::findOne($author->id()?->value))->notEmpty();
     }
 
     public function testUpdate(): void
     {
-        $service = new AuthorService();
-        $author = Author::findOne(1);
-        $form = new AuthorForm($author);
-        $form->name = 'Updated Author';
+        $handler = Yii::$container->get(UpdateAuthorHandler::class);
+        $updated = $handler->handle(new UpdateAuthorCommand(1, 'Updated Author'));
 
-        $updated = $service->update($author, $form);
-
-        verify($updated->name)->equals('Updated Author');
-        verify(Author::findOne(1)->name)->equals('Updated Author');
+        verify($updated->name()->value)->equals('Updated Author');
+        verify(AuthorRecord::findOne(1)?->name)->equals('Updated Author');
     }
 
     public function testDeleteAuthorWithBooks(): void
     {
-        $service = new AuthorService();
+        $handler = Yii::$container->get(DeleteAuthorHandler::class);
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Нельзя удалить автора, у которого есть книги');
+        $this->expectException(DomainRuleException::class);
+        $this->expectExceptionMessage('Cannot delete author with books.');
 
-        $service->deleteAuthor(1);
+        $handler->handle(new DeleteAuthorCommand(1));
     }
 
     public function testDeleteAuthorWithoutBooks(): void
     {
-        $service = new AuthorService();
+        $handler = Yii::$container->get(DeleteAuthorHandler::class);
+        $handler->handle(new DeleteAuthorCommand(3));
 
-        $service->deleteAuthor(3);
-
-        verify(Author::findOne(3))->empty();
+        verify(AuthorRecord::findOne(3))->empty();
     }
 }

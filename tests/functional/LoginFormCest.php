@@ -1,7 +1,7 @@
 <?php
 
 use app\Infrastructure\Persistence\ActiveRecord\User;
-use app\tests\fixtures\UserFixture;
+use tests\fixtures\UserFixture;
 
 class LoginFormCest
 {

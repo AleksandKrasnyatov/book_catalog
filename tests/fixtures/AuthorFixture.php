@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\tests\fixtures;
+namespace tests\fixtures;
 
-use app\Domain\Entity\Author;
+use app\Infrastructure\Persistence\ActiveRecord\AuthorRecord;
 use yii\test\ActiveFixture;
 
-class AuthorFixture extends ActiveFixture
+final class AuthorFixture extends ActiveFixture
 {
-    public $modelClass = Author::class;
+    public $modelClass = AuthorRecord::class;
     public $dataFile = '@tests/_data/author.php';
 }

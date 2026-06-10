@@ -3,9 +3,10 @@
 namespace tests\unit\widgets;
 
 use app\Infrastructure\Http\widgets\Alert;
+use Codeception\Test\Unit;
 use Yii;
 
-class AlertTest extends \Codeception\Test\Unit
+class AlertTest extends Unit
 {
     public function testSingleErrorMessage()
     {

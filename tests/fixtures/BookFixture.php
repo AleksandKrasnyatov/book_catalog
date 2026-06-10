@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\tests\fixtures;
+namespace tests\fixtures;
 
-use app\Domain\Entity\Book;
+use app\Infrastructure\Persistence\ActiveRecord\BookRecord;
 use yii\test\ActiveFixture;
 
-class BookFixture extends ActiveFixture
+final class BookFixture extends ActiveFixture
 {
-    public $modelClass = Book::class;
+    public $modelClass = BookRecord::class;
     public $dataFile = '@tests/_data/book.php';
 }
