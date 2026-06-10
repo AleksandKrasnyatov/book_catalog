@@ -9,4 +9,3 @@ use RuntimeException;
 final class EntityNotFound extends RuntimeException
 {
 }
-

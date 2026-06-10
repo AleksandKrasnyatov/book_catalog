@@ -43,4 +43,3 @@ final class SiteController extends Controller
         return $this->render('index', ['appName' => Yii::$app->name]);
     }
 }
-

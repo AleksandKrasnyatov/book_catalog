@@ -27,4 +27,3 @@ final class LoginAction extends Action
         return $this->controller->render('login', ['model' => $form]);
     }
 }
-

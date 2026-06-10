@@ -41,4 +41,3 @@ final class BookAuthorRepository implements BookAuthorRepositoryInterface
         BookAuthorRecord::deleteAll(['book_id' => $bookId->value]);
     }
 }
-

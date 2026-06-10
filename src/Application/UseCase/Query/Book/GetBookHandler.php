@@ -19,4 +19,3 @@ final readonly class GetBookHandler
         return $this->books->getView(new Id($query->id));
     }
 }
-

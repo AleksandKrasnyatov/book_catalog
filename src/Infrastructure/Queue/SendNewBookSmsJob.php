@@ -23,4 +23,3 @@ final readonly class SendNewBookSmsJob implements JobInterface
             ->handle(new SendNewBookSmsCommand($this->bookId, $this->authorId));
     }
 }
-

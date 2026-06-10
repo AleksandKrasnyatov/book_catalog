@@ -21,4 +21,3 @@ final class AuthorMapper
         $record->name = $author->name()->value;
     }
 }
-

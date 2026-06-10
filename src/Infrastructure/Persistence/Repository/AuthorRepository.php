@@ -71,4 +71,3 @@ final readonly class AuthorRepository implements AuthorRepositoryInterface
         return AuthorRecord::find()->select(['name'])->indexBy('id')->column();
     }
 }
-

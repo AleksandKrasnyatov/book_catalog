@@ -18,4 +18,3 @@ final class BookAuthorRecord extends ActiveRecord
         return '{{%book_author}}';
     }
 }
-

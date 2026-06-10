@@ -39,4 +39,3 @@ final class BookForm extends Model
         return parent::beforeValidate();
     }
 }
-

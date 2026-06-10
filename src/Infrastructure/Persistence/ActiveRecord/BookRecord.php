@@ -31,4 +31,3 @@ final class BookRecord extends ActiveRecord
         return '{{%books}}';
     }
 }
-

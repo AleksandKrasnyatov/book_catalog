@@ -29,4 +29,3 @@ final class TopAuthorsAction extends Action
         ]);
     }
 }
-

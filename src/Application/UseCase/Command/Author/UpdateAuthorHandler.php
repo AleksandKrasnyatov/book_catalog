@@ -31,4 +31,3 @@ final readonly class UpdateAuthorHandler
         return $author;
     }
 }
-

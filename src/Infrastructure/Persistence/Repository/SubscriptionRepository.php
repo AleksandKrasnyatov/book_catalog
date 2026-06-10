@@ -20,7 +20,10 @@ final readonly class SubscriptionRepository implements SubscriptionRepositoryInt
 
     public function save(Subscription $subscription): void
     {
-        $record = $subscription->id() ? SubscriptionRecord::findOne($subscription->id()->value) : new SubscriptionRecord();
+        $record = $subscription->id()
+            ? SubscriptionRecord::findOne($subscription->id()->value)
+            : new SubscriptionRecord();
+
         if (!$record instanceof SubscriptionRecord) {
             throw new RuntimeException('Subscription not found.');
         }
@@ -50,4 +53,3 @@ final readonly class SubscriptionRepository implements SubscriptionRepositoryInt
             ->column();
     }
 }
-

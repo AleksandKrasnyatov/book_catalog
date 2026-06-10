@@ -54,4 +54,3 @@ final readonly class BookRepository implements BookRepositoryInterface
         BookRecord::deleteAll(['id' => $book->id()->value]);
     }
 }
-

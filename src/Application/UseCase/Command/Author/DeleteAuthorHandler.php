@@ -24,4 +24,3 @@ final readonly class DeleteAuthorHandler
         $this->authors->delete($this->authors->get($id));
     }
 }
-

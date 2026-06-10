@@ -18,4 +18,3 @@ final class AuthorSearchForm extends Model
         ];
     }
 }
-

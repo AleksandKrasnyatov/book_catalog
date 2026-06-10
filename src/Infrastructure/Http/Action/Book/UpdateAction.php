@@ -63,4 +63,3 @@ final class UpdateAction extends Action
         ]);
     }
 }
-

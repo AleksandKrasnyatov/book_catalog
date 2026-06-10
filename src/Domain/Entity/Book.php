@@ -92,4 +92,3 @@ final class Book
         return $this->photo;
     }
 }
-

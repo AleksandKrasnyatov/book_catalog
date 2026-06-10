@@ -21,4 +21,3 @@ final readonly class TopAuthorsHandler
         return $this->reports->topAuthorsByYear($query->year, $query->limit);
     }
 }
-

@@ -25,4 +25,3 @@ interface AuthorRepositoryInterface
      */
     public function listOptions(): array;
 }
-

@@ -17,4 +17,3 @@ interface AuthorQueryInterface
      */
     public function search(array $filter): PaginatedResult;
 }
-

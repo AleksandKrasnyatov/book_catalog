@@ -8,4 +8,3 @@ interface TransactionManagerInterface
 {
     public function wrap(callable $callback): mixed;
 }
-

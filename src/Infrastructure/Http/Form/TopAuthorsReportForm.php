@@ -27,4 +27,3 @@ final class TopAuthorsReportForm extends Model
         parent::afterValidate();
     }
 }
-

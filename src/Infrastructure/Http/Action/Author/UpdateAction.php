@@ -41,4 +41,3 @@ final class UpdateAction extends Action
         return $this->controller->render('update', ['model' => $form, 'author' => $author]);
     }
 }
-

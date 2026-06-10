@@ -16,4 +16,3 @@ final class YiiNewBookNotifier implements NewBookNotifierInterface
         Yii::$app->queue->push(new SendNewBookSmsJob($bookId->value, $authorId->value));
     }
 }
-

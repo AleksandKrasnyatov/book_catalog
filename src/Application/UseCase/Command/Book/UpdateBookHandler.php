@@ -48,7 +48,8 @@ final readonly class UpdateBookHandler
             $this->syncAuthors($bookId, $command->authorIds);
         });
 
-        if ($oldPhoto !== null && $oldPhoto !== $newPhoto && ($command->newPhotoFile !== null || $command->removePhoto)) {
+        $hasNewPhotoOrNeedToRemoveOld = $command->newPhotoFile !== null || $command->removePhoto;
+        if ($oldPhoto !== null && $oldPhoto !== $newPhoto && $hasNewPhotoOrNeedToRemoveOld) {
             $this->files->delete($oldPhoto);
         }
 
@@ -88,4 +89,3 @@ final readonly class UpdateBookHandler
         }
     }
 }
-

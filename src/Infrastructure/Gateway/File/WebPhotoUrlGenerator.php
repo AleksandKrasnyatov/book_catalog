@@ -18,4 +18,3 @@ final readonly class WebPhotoUrlGenerator implements PhotoUrlGeneratorInterface
         return $photo ? rtrim($this->baseUrl, '/') . '/' . $photo->value : null;
     }
 }
-

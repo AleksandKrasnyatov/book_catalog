@@ -10,4 +10,3 @@ interface SmsGatewayInterface
 {
     public function send(SmsMessage $message): void;
 }
-

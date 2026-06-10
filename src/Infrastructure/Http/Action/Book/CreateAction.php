@@ -50,4 +50,3 @@ final class CreateAction extends Action
         ]);
     }
 }
-

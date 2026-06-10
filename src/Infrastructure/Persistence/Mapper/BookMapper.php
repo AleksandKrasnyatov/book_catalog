@@ -35,4 +35,3 @@ final class BookMapper
         $record->photo = $book->photo()?->value;
     }
 }
-

@@ -31,4 +31,3 @@ final class CreateAction extends Action
         return $this->controller->render('create', ['model' => $form]);
     }
 }
-

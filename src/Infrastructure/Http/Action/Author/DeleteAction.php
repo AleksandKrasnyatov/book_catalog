@@ -25,4 +25,3 @@ final class DeleteAction extends Action
         return $this->controller->redirect(['index']);
     }
 }
-

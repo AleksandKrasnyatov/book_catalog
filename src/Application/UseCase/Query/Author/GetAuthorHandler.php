@@ -19,4 +19,3 @@ final readonly class GetAuthorHandler
         return $this->authors->getView(new Id($query->id));
     }
 }
-

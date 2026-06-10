@@ -21,4 +21,3 @@ final class BookSearchForm extends Model
         ];
     }
 }
-

@@ -57,4 +57,3 @@ final readonly class CreateBookHandler
         return $book;
     }
 }
-

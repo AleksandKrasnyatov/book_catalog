@@ -10,4 +10,3 @@ interface PhotoUrlGeneratorInterface
 {
     public function url(?PhotoName $photo): ?string;
 }
-

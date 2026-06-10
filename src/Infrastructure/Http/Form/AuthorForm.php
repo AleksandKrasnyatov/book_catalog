@@ -19,4 +19,3 @@ final class AuthorForm extends Model
         ];
     }
 }
-

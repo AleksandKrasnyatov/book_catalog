@@ -13,4 +13,3 @@ interface ReportQueryInterface
      */
     public function topAuthorsByYear(int $year, int $limit): array;
 }
-

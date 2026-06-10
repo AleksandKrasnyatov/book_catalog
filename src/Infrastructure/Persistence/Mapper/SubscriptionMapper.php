@@ -26,4 +26,3 @@ final class SubscriptionMapper
         $record->phone = $subscription->phone()->value;
     }
 }
-

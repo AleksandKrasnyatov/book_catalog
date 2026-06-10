@@ -13,4 +13,3 @@ interface FileStorageInterface
 
     public function delete(PhotoName $photo): void;
 }
-

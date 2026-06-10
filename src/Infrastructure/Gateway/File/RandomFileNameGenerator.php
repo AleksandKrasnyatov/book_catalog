@@ -11,4 +11,3 @@ final class RandomFileNameGenerator
         return bin2hex(random_bytes(16)) . '.' . strtolower($extension);
     }
 }
-

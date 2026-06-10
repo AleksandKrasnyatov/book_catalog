@@ -19,4 +19,3 @@ interface SubscriptionRepositoryInterface
      */
     public function findPhonesById(Id $authorId): array;
 }
-

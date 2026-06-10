@@ -46,4 +46,3 @@ final class Subscription
         return $this->phone;
     }
 }
-

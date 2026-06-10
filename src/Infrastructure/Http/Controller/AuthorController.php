@@ -41,4 +41,3 @@ final class AuthorController extends Controller
         ];
     }
 }
-

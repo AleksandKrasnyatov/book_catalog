@@ -15,4 +15,3 @@ interface BookRepositoryInterface
 
     public function delete(Book $book): void;
 }
-

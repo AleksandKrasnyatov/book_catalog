@@ -25,4 +25,3 @@ final class YiiTransactionManager implements TransactionManagerInterface
         }
     }
 }
-

@@ -9,4 +9,3 @@ use DomainException;
 final class DomainRuleException extends DomainException
 {
 }
-

@@ -17,4 +17,3 @@ interface BookQueryInterface
      */
     public function search(array $filter): PaginatedResult;
 }
-

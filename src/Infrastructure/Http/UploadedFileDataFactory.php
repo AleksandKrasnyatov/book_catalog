@@ -18,4 +18,3 @@ final class UploadedFileDataFactory
         return new UploadedFileData($file->name, $file->extension, $file->tempName, $file->size);
     }
 }
-

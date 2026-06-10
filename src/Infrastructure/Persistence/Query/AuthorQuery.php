@@ -40,4 +40,3 @@ final class AuthorQuery implements AuthorQueryInterface
         return new PaginatedResult($items, count($items), 1, count($items));
     }
 }
-

@@ -30,9 +30,9 @@ final class ReportQuery implements ReportQueryInterface
             ->all();
 
         return array_map(
-            static fn(array $row): TopAuthorRow => new TopAuthorRow((int) $row['id'], (string) $row['name'], (int) $row['booksCount']),
+            static fn(array $row): TopAuthorRow
+                => new TopAuthorRow((int) $row['id'], (string) $row['name'], (int) $row['booksCount']),
             $rows,
         );
     }
 }
-

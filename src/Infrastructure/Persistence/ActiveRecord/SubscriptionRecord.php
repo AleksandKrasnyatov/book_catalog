@@ -30,4 +30,3 @@ final class SubscriptionRecord extends ActiveRecord
         return '{{%subscriptions}}';
     }
 }
-

@@ -10,4 +10,3 @@ interface NewBookNotifierInterface
 {
     public function notify(Id $bookId, Id $authorId): void;
 }
-

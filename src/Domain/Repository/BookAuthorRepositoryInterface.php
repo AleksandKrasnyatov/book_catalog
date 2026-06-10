@@ -20,4 +20,3 @@ interface BookAuthorRepositoryInterface
 
     public function removeAllById(Id $bookId): void;
 }
-

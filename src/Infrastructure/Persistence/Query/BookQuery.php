@@ -78,4 +78,3 @@ final readonly class BookQuery implements BookQueryInterface
         );
     }
 }
-

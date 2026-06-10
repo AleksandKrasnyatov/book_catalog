@@ -17,4 +17,3 @@ final class LogoutAction extends Action
         return $this->controller->goHome();
     }
 }
-

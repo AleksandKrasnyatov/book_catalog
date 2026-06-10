@@ -9,5 +9,5 @@ parameters:
         - tests
         - vendor
         - config
-        - views
+        - src/Infrastructure/Http/View
         - smspilot

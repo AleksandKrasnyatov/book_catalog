@@ -18,4 +18,3 @@ final readonly class SearchAuthorsHandler
         return $this->authors->search(['name' => $query->name]);
     }
 }
-
