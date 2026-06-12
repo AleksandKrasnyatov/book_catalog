@@ -7,7 +7,11 @@ namespace app\Infrastructure\Http\Action\Site;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class LogoutAction extends Action
 {
     public function run(): Response

@@ -9,7 +9,11 @@ use app\Application\UseCase\Query\Author\SearchAuthorsQuery;
 use app\Infrastructure\Http\Form\AuthorSearchForm;
 use Yii;
 use yii\base\Action;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class IndexAction extends Action
 {
     public function __construct($id, $controller, private readonly SearchAuthorsHandler $handler, $config = [])

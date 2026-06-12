@@ -7,7 +7,11 @@ namespace app\Infrastructure\Http\Action\Book;
 use app\Application\UseCase\Query\Book\GetBookHandler;
 use app\Application\UseCase\Query\Book\GetBookQuery;
 use yii\base\Action;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class ViewAction extends Action
 {
     public function __construct($id, $controller, private readonly GetBookHandler $handler, $config = [])

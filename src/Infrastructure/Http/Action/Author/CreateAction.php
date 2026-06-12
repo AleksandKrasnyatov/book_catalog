@@ -10,7 +10,11 @@ use app\Infrastructure\Http\Form\AuthorForm;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class CreateAction extends Action
 {
     public function __construct($id, $controller, private readonly CreateAuthorHandler $handler, $config = [])

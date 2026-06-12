@@ -46,7 +46,7 @@ final class UpdateBookHandler
             $newPhoto,
         );
 
-        $this->transactions->wrap(function () use ($book, $bookId, $command, $newPhoto): void {
+        $this->transactions->wrap(function () use ($book, $bookId, $command): void {
             $this->books->save($book);
             $this->syncAuthors($bookId, $command->authorIds);
         });

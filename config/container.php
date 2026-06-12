@@ -40,12 +40,14 @@ return [
         ReportQueryInterface::class => ReportQuery::class,
 
         TransactionManagerInterface::class => YiiTransactionManager::class,
-        NewBookNotifierInterface::class => YiiNewBookNotifier::class,
+        NewBookNotifierInterface::class => static fn(): YiiNewBookNotifier => new YiiNewBookNotifier(
+            Yii::$app->get('queue'),
+        ),
         SmsGatewayInterface::class => SmsPilotGateway::class,
         PhotoUrlGeneratorInterface::class => WebPhotoUrlGenerator::class,
 
         FileStorageInterface::class => static fn(): LocalFileStorage => new LocalFileStorage(
-            \Yii::getAlias('@webroot/photos'),
+            Yii::getAlias('@webroot/photos'),
             new RandomFileNameGenerator(),
         ),
     ],

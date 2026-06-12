@@ -11,7 +11,11 @@ use app\Infrastructure\Http\Form\SubscriptionForm;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class IndexAction extends Action
 {
     public function __construct(

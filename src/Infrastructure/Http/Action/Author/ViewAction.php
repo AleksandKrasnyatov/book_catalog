@@ -7,7 +7,11 @@ namespace app\Infrastructure\Http\Action\Author;
 use app\Application\UseCase\Query\Author\GetAuthorHandler;
 use app\Application\UseCase\Query\Author\GetAuthorQuery;
 use yii\base\Action;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class ViewAction extends Action
 {
     public function __construct($id, $controller, private readonly GetAuthorHandler $handler, $config = [])

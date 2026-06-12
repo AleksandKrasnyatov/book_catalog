@@ -10,7 +10,11 @@ use app\Domain\Repository\AuthorRepositoryInterface;
 use app\Infrastructure\Http\Form\BookSearchForm;
 use Yii;
 use yii\base\Action;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class IndexAction extends Action
 {
     public function __construct(

@@ -9,7 +9,11 @@ use app\Application\UseCase\Command\Author\DeleteAuthorHandler;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class DeleteAction extends Action
 {
     public function __construct($id, $controller, private readonly DeleteAuthorHandler $handler, $config = [])

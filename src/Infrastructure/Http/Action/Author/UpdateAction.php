@@ -12,7 +12,11 @@ use app\Infrastructure\Http\Form\AuthorForm;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
+use yii\web\Controller;
 
+/**
+ * @template-extends Action<Controller>
+ */
 final class UpdateAction extends Action
 {
     public function __construct(
