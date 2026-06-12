@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace app\Infrastructure\Gateway\Db;
+namespace tests\unit\Support;
 
 use app\Application\Gateway\Db\TransactionManagerInterface;
 use Throwable;
-use Yii;
-use yii\db\Exception;
 
-final class YiiTransactionManager implements TransactionManagerInterface
+final class FakeTransactionManager implements TransactionManagerInterface
 {
+    public int $wrapCalls = 0;
+    public bool $committed = false;
+    public bool $rolledBack = false;
+
     public function wrap(callable $callback): mixed
     {
-        $transaction = Yii::$app->db->beginTransaction();
+        $this->wrapCalls++;
 
         try {
             $result = $callback();
-            $transaction->commit();
+            $this->committed = true;
 
             return $result;
         } catch (Throwable $exception) {
-            $transaction->rollBack();
+            $this->rolledBack = true;
             throw $exception;
         }
     }

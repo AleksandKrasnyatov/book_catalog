@@ -8,5 +8,8 @@ use app\Domain\ValueObject\Id;
 
 interface NewBookNotifierInterface
 {
-    public function notify(Id $bookId, Id $authorId): void;
+    /**
+     * @param Id[] $authorIds
+     */
+    public function notify(Id $bookId, array $authorIds): void;
 }

@@ -11,8 +11,10 @@ use Yii;
 
 final class YiiNewBookNotifier implements NewBookNotifierInterface
 {
-    public function notify(Id $bookId, Id $authorId): void
+    public function notify(Id $bookId, array $authorIds): void
     {
-        Yii::$app->queue->push(new SendNewBookSmsJob($bookId->value, $authorId->value));
+        foreach ($authorIds as $authorId) {
+            Yii::$app->queue->push(new SendNewBookSmsJob($bookId->value, $authorId->value));
+        }
     }
 }

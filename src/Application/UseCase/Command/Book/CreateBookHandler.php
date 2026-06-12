@@ -16,15 +16,19 @@ use app\Domain\ValueObject\BookYear;
 use app\Domain\ValueObject\Id;
 use app\Domain\ValueObject\Isbn;
 use RuntimeException;
+use Throwable;
 
-final readonly class CreateBookHandler
+final class CreateBookHandler
 {
+    /** @var Id[] */
+    private array $toNotifyAuthorsIds = [];
+
     public function __construct(
-        private BookRepositoryInterface $books,
-        private BookAuthorRepositoryInterface $bookAuthors,
-        private FileStorageInterface $files,
-        private NewBookNotifierInterface $notifier,
-        private TransactionManagerInterface $transactions,
+        private readonly BookRepositoryInterface $books,
+        private readonly BookAuthorRepositoryInterface $bookAuthors,
+        private readonly FileStorageInterface $files,
+        private readonly NewBookNotifierInterface $notifier,
+        private readonly TransactionManagerInterface $transactions,
     ) {
     }
 
@@ -39,21 +43,32 @@ final readonly class CreateBookHandler
             $photo,
         );
 
-        $this->transactions->wrap(function () use ($book, $command): void {
-            $this->books->save($book);
-            $bookId = $book->id();
-
-            if ($bookId === null) {
-                throw new RuntimeException('Book id must be assigned after save.');
+        try {
+            $this->transactions->wrap(fn() => $this->createBookAndAddAuthors($book, $command->authorIds));
+        } catch (Throwable $e) {
+            if ($photo !== null) {
+                $this->files->delete($photo);
             }
+            throw new RuntimeException($e->getMessage());
+        }
 
-            foreach ($command->authorIds as $authorId) {
-                $authorId = new Id($authorId);
-                $this->bookAuthors->add(new BookAuthor($bookId, $authorId));
-                $this->notifier->notify($bookId, $authorId);
-            }
-        });
+        $this->notifier->notify($book->id(), $this->toNotifyAuthorsIds);
 
         return $book;
+    }
+
+    /**
+     * @param int[] $authorIds
+     */
+    private function createBookAndAddAuthors(Book $book, array $authorIds): void
+    {
+        $this->books->save($book);
+        $bookId = $book->id();
+
+        foreach ($authorIds as $authorId) {
+            $authorId = new Id($authorId);
+            $this->bookAuthors->add(new BookAuthor($bookId, $authorId));
+            $this->toNotifyAuthorsIds[] = $authorId;
+        }
     }
 }

@@ -17,14 +17,17 @@ use app\Domain\ValueObject\Id;
 use app\Domain\ValueObject\Isbn;
 use app\Domain\ValueObject\PhotoName;
 
-final readonly class UpdateBookHandler
+final class UpdateBookHandler
 {
+    /** @var Id[] */
+    private array $toNotifyAuthorsIds = [];
+
     public function __construct(
-        private BookRepositoryInterface $books,
-        private BookAuthorRepositoryInterface $bookAuthors,
-        private FileStorageInterface $files,
-        private NewBookNotifierInterface $notifier,
-        private TransactionManagerInterface $transactions,
+        private readonly BookRepositoryInterface $books,
+        private readonly BookAuthorRepositoryInterface $bookAuthors,
+        private readonly FileStorageInterface $files,
+        private readonly NewBookNotifierInterface $notifier,
+        private readonly TransactionManagerInterface $transactions,
     ) {
     }
 
@@ -35,15 +38,15 @@ final readonly class UpdateBookHandler
         $oldPhoto = $book->photo();
         $newPhoto = $this->resolvePhoto($command, $oldPhoto);
 
-        $this->transactions->wrap(function () use ($book, $bookId, $command, $newPhoto): void {
-            $book->edit(
-                new BookTitle($command->title),
-                new BookYear($command->year),
-                $command->description,
-                $command->isbn ? new Isbn($command->isbn) : null,
-                $newPhoto,
-            );
+        $book->edit(
+            new BookTitle($command->title),
+            new BookYear($command->year),
+            $command->description,
+            $command->isbn ? new Isbn($command->isbn) : null,
+            $newPhoto,
+        );
 
+        $this->transactions->wrap(function () use ($book, $bookId, $command, $newPhoto): void {
             $this->books->save($book);
             $this->syncAuthors($bookId, $command->authorIds);
         });
@@ -52,6 +55,8 @@ final readonly class UpdateBookHandler
         if ($oldPhoto !== null && $oldPhoto !== $newPhoto && $hasNewPhotoOrNeedToRemoveOld) {
             $this->files->delete($oldPhoto);
         }
+
+        $this->notifier->notify($bookId, $this->toNotifyAuthorsIds);
 
         return $book;
     }
@@ -81,7 +86,7 @@ final readonly class UpdateBookHandler
         foreach ($toCreate as $authorId) {
             $authorId = new Id($authorId);
             $this->bookAuthors->add(new BookAuthor($bookId, $authorId));
-            $this->notifier->notify($bookId, $authorId);
+            $this->toNotifyAuthorsIds[] = $authorId;
         }
 
         foreach ($toDelete as $authorId) {
