@@ -2,6 +2,82 @@
 
 ```mermaid
 classDiagram
+    namespace Controllers {
+        class AuthorController
+        class BookController
+        class SubscriptionController
+        class ReportController
+        class SiteController
+    }
+
+    namespace Forms {
+        class AuthorForm
+        class AuthorSearchForm
+        class BookForm
+        class BookSearchForm
+        class SubscriptionForm
+        class TopAuthorsReportForm
+        class LoginForm
+    }
+
+    namespace HttpAdapter {
+        class UploadedFileDataFactory
+    }
+
+    namespace AuthorActions {
+        class AuthorIndexAction
+        class AuthorCreateAction
+        class AuthorViewAction
+        class AuthorUpdateAction
+        class AuthorDeleteAction
+    }
+
+    namespace BookActions {
+        class BookIndexAction
+        class BookCreateAction
+        class BookViewAction
+        class BookUpdateAction
+        class BookDeleteAction
+    }
+
+    namespace OtherActions {
+        class SubscriptionIndexAction
+        class TopAuthorsAction
+        class LoginAction
+        class LogoutAction
+    }
+
+    namespace CommandHandlers {
+        class CreateAuthorHandler
+        class UpdateAuthorHandler
+        class DeleteAuthorHandler
+        class CreateBookHandler
+        class UpdateBookHandler
+        class DeleteBookHandler
+        class SubscribeToAuthorHandler
+        class SendNewBookSmsHandler
+    }
+
+    namespace QueryHandlers {
+        class GetAuthorHandler
+        class SearchAuthorsHandler
+        class GetBookHandler
+        class SearchBooksHandler
+        class TopAuthorsHandler
+    }
+
+    namespace ReadModels {
+        class AuthorView
+        class BookView
+        class PaginatedResult
+        class TopAuthorRow
+    }
+
+    namespace ApplicationDTO {
+        class SmsMessage
+        class UploadedFileData
+    }
+
     namespace DomainEntity {
         class Author
         class Book
@@ -13,11 +89,13 @@ classDiagram
         class Id
         class AuthorName
         class BookTitle
+        class BookYear
+        class Isbn
         class PhotoName
         class PhoneNumber
     }
 
-    namespace DomainPortRepository {
+    namespace DomainPorts {
         class AuthorRepositoryInterface {
             <<interface>>
         }
@@ -30,38 +108,22 @@ classDiagram
         class SubscriptionRepositoryInterface {
             <<interface>>
         }
-    }
-
-    namespace DomainPortQuery {
+        class AuthorQueryInterface {
+            <<interface>>
+        }
         class BookQueryInterface {
             <<interface>>
         }
         class ReportQueryInterface {
             <<interface>>
         }
-        class PhotoUrlGeneratorInterface {
-            <<interface>>
-        }
-    }
-
-    namespace ApplicationCommand {
-        class CreateAuthorHandler
-        class CreateBookHandler
-        class UpdateBookHandler
-        class SubscribeToAuthorHandler
-        class SendNewBookSmsHandler
-    }
-
-    namespace ApplicationQuery {
-        class SearchBooksHandler
-        class TopAuthorsHandler
-    }
-
-    namespace ApplicationPortGateway {
         class TransactionManagerInterface {
             <<interface>>
         }
         class FileStorageInterface {
+            <<interface>>
+        }
+        class PhotoUrlGeneratorInterface {
             <<interface>>
         }
         class NewBookNotifierInterface {
@@ -72,19 +134,20 @@ classDiagram
         }
     }
 
-    namespace InfrastructureHttp {
-        class BookController
-        class SubscriptionController
-        class CreateBookAction
-        class BookForm
-        class SubscriptionForm
-    }
-
     namespace InfrastructurePersistence {
+        class AuthorRecord
         class BookRecord
+        class BookAuthorRecord
+        class SubscriptionRecord
+        class User
+        class AuthorMapper
         class BookMapper
+        class SubscriptionMapper
+        class AuthorRepository
         class BookRepository
+        class BookAuthorRepository
         class SubscriptionRepository
+        class AuthorQuery
         class BookQuery
         class ReportQuery
     }
@@ -92,6 +155,7 @@ classDiagram
     namespace InfrastructureGateway {
         class YiiTransactionManager
         class LocalFileStorage
+        class RandomFileNameGenerator
         class WebPhotoUrlGenerator
         class YiiNewBookNotifier
         class SmsPilotGateway
@@ -101,53 +165,165 @@ classDiagram
         class SendNewBookSmsJob
     }
 
-    %% Domain: сущности состоят из value object'ов, ActiveRecord отсутствует
-    Book *-- BookTitle
-    Book *-- PhotoName
+    %% --- Domain: сущности и value object'ы ---
     Author *-- AuthorName
+    Book *-- BookTitle
+    Book *-- BookYear
+    Book *-- Isbn
+    Book *-- PhotoName
     Subscription *-- PhoneNumber
-    Book *-- Id
+    Subscription *-- Id
 
-    %% Application зависит ТОЛЬКО от доменных портов и сущностей
+    %% --- HTTP: контроллеры → actions → handlers, формы только валидируют ввод ---
+    AuthorController ..> AuthorIndexAction
+    AuthorController ..> AuthorCreateAction
+    AuthorController ..> AuthorViewAction
+    AuthorController ..> AuthorUpdateAction
+    AuthorController ..> AuthorDeleteAction
+
+    BookController ..> BookIndexAction
+    BookController ..> BookCreateAction
+    BookController ..> BookViewAction
+    BookController ..> BookUpdateAction
+    BookController ..> BookDeleteAction
+
+    SubscriptionController ..> SubscriptionIndexAction
+    ReportController ..> TopAuthorsAction
+    SiteController ..> LoginAction
+    SiteController ..> LogoutAction
+
+    AuthorIndexAction ..> AuthorSearchForm
+    AuthorIndexAction --> SearchAuthorsHandler
+    AuthorCreateAction ..> AuthorForm
+    AuthorCreateAction --> CreateAuthorHandler
+    AuthorViewAction --> GetAuthorHandler
+    AuthorUpdateAction ..> AuthorForm
+    AuthorUpdateAction --> UpdateAuthorHandler
+    AuthorUpdateAction --> GetAuthorHandler
+    AuthorDeleteAction --> DeleteAuthorHandler
+
+    BookIndexAction ..> BookSearchForm
+    BookIndexAction --> SearchBooksHandler
+    BookIndexAction --> AuthorRepositoryInterface
+    BookCreateAction ..> BookForm
+    BookCreateAction --> CreateBookHandler
+    BookCreateAction --> AuthorRepositoryInterface
+    BookCreateAction ..> UploadedFileDataFactory
+    BookViewAction --> GetBookHandler
+    BookUpdateAction ..> BookForm
+    BookUpdateAction --> UpdateBookHandler
+    BookUpdateAction --> GetBookHandler
+    BookUpdateAction --> AuthorRepositoryInterface
+    BookUpdateAction ..> UploadedFileDataFactory
+    BookDeleteAction --> DeleteBookHandler
+
+    SubscriptionIndexAction ..> SubscriptionForm
+    SubscriptionIndexAction --> SubscribeToAuthorHandler
+    SubscriptionIndexAction --> AuthorRepositoryInterface
+
+    TopAuthorsAction ..> TopAuthorsReportForm
+    TopAuthorsAction --> TopAuthorsHandler
+
+    SiteController ..> LoginForm
+    UploadedFileDataFactory ..> UploadedFileData
+
+    %% --- Command handlers → порты и домен ---
     CreateAuthorHandler --> AuthorRepositoryInterface
-    SubscribeToAuthorHandler --> AuthorRepositoryInterface
-    SubscribeToAuthorHandler --> SubscriptionRepositoryInterface
+    CreateAuthorHandler --> Author
+    UpdateAuthorHandler --> AuthorRepositoryInterface
+    UpdateAuthorHandler --> Author
+    DeleteAuthorHandler --> AuthorRepositoryInterface
+
     CreateBookHandler --> BookRepositoryInterface
     CreateBookHandler --> BookAuthorRepositoryInterface
     CreateBookHandler --> FileStorageInterface
     CreateBookHandler --> NewBookNotifierInterface
     CreateBookHandler --> TransactionManagerInterface
+    CreateBookHandler --> Book
+    CreateBookHandler --> BookAuthor
+
     UpdateBookHandler --> BookRepositoryInterface
+    UpdateBookHandler --> BookAuthorRepositoryInterface
+    UpdateBookHandler --> FileStorageInterface
+    UpdateBookHandler --> NewBookNotifierInterface
     UpdateBookHandler --> TransactionManagerInterface
+
+    DeleteBookHandler --> BookRepositoryInterface
+    DeleteBookHandler --> BookAuthorRepositoryInterface
+    DeleteBookHandler --> FileStorageInterface
+    DeleteBookHandler --> TransactionManagerInterface
+
+    SubscribeToAuthorHandler --> AuthorRepositoryInterface
+    SubscribeToAuthorHandler --> SubscriptionRepositoryInterface
+    SubscribeToAuthorHandler --> Subscription
+
+    SendNewBookSmsHandler --> AuthorRepositoryInterface
+    SendNewBookSmsHandler --> BookRepositoryInterface
     SendNewBookSmsHandler --> SubscriptionRepositoryInterface
     SendNewBookSmsHandler --> SmsGatewayInterface
-    SearchBooksHandler --> BookQueryInterface
-    TopAuthorsHandler --> ReportQueryInterface
+    SendNewBookSmsHandler ..> SmsMessage
 
-    %% Infrastructure реализует порты (стрелки направлены ВНУТРЬ, к домену/приложению)
+    %% --- Query handlers → query-порты и read-модели ---
+    GetAuthorHandler --> AuthorQueryInterface
+    GetAuthorHandler ..> AuthorView
+    SearchAuthorsHandler --> AuthorQueryInterface
+    SearchAuthorsHandler ..> PaginatedResult
+
+    GetBookHandler --> BookQueryInterface
+    GetBookHandler ..> BookView
+    SearchBooksHandler --> BookQueryInterface
+    SearchBooksHandler ..> PaginatedResult
+
+    TopAuthorsHandler --> ReportQueryInterface
+    TopAuthorsHandler ..> TopAuthorRow
+
+    %% --- Infrastructure реализует порты ---
+    AuthorRepository ..|> AuthorRepositoryInterface
     BookRepository ..|> BookRepositoryInterface
+    BookAuthorRepository ..|> BookAuthorRepositoryInterface
     SubscriptionRepository ..|> SubscriptionRepositoryInterface
+
+    AuthorQuery ..|> AuthorQueryInterface
     BookQuery ..|> BookQueryInterface
     ReportQuery ..|> ReportQueryInterface
+
     YiiTransactionManager ..|> TransactionManagerInterface
     LocalFileStorage ..|> FileStorageInterface
     WebPhotoUrlGenerator ..|> PhotoUrlGeneratorInterface
     YiiNewBookNotifier ..|> NewBookNotifierInterface
     SmsPilotGateway ..|> SmsGatewayInterface
 
-    %% БД спрятана за репозиторием: только Infrastructure знает про ActiveRecord
+    %% --- Persistence: ActiveRecord изолирован за mapper/repository/query ---
+    AuthorRepository --> AuthorMapper
+    AuthorMapper --> AuthorRecord
+    AuthorMapper --> Author
+
     BookRepository --> BookMapper
     BookMapper --> BookRecord
     BookMapper --> Book
 
-    %% HTTP-слой вызывает use case'ы, формы только валидируют ввод
-    BookController ..> CreateBookAction
-    CreateBookAction --> CreateBookHandler
-    CreateBookAction ..> BookForm
-    SubscriptionController --> SubscribeToAuthorHandler
-    SubscriptionController ..> SubscriptionForm
+    SubscriptionRepository --> SubscriptionMapper
+    SubscriptionMapper --> SubscriptionRecord
+    SubscriptionMapper --> Subscription
 
-    %% Очередь делегирует use case'у, а не делает работу сама
+    BookAuthorRepository --> BookAuthorRecord
+    BookAuthorRepository --> BookAuthor
+
+    AuthorQuery --> AuthorRecord
+    AuthorQuery ..> AuthorView
+
+    BookQuery --> BookRecord
+    BookQuery --> BookAuthorRecord
+    BookQuery --> PhotoUrlGeneratorInterface
+    BookQuery ..> BookView
+
+    ReportQuery ..> TopAuthorRow
+
+    %% --- Gateway и очередь ---
+    LocalFileStorage --> RandomFileNameGenerator
+    LocalFileStorage ..> UploadedFileData
+    LocalFileStorage --> PhotoName
+
     YiiNewBookNotifier --> SendNewBookSmsJob
     SendNewBookSmsJob ..> SendNewBookSmsHandler
 ```

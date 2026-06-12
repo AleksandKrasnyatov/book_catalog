@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Domain\Query;
+namespace app\Application\Gateway\File;
 
 use app\Domain\ValueObject\PhotoName;
 

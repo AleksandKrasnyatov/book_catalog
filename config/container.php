@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use app\Application\Gateway\Db\TransactionManagerInterface;
 use app\Application\Gateway\File\FileStorageInterface;
+use app\Application\Gateway\File\PhotoUrlGeneratorInterface;
 use app\Application\Gateway\Notification\NewBookNotifierInterface;
 use app\Application\Gateway\Sms\SmsGatewayInterface;
 use app\Domain\Query\AuthorQueryInterface;
 use app\Domain\Query\BookQueryInterface;
-use app\Domain\Query\PhotoUrlGeneratorInterface;
 use app\Domain\Query\ReportQueryInterface;
 use app\Domain\Repository\AuthorRepositoryInterface;
 use app\Domain\Repository\BookAuthorRepositoryInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\Infrastructure\Gateway\File;
 
-use app\Domain\Query\PhotoUrlGeneratorInterface;
+use app\Application\Gateway\File\PhotoUrlGeneratorInterface;
 use app\Domain\ValueObject\PhotoName;
 
 final readonly class WebPhotoUrlGenerator implements PhotoUrlGeneratorInterface

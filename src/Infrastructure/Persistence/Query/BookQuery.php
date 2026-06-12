@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace app\Infrastructure\Persistence\Query;
 
+use app\Application\Gateway\File\PhotoUrlGeneratorInterface;
 use app\Application\UseCase\Query\Book\Model\BookView;
 use app\Application\UseCase\Query\Book\Model\PaginatedResult;
 use app\Domain\Exception\EntityNotFound;
 use app\Domain\Query\BookQueryInterface;
-use app\Domain\Query\PhotoUrlGeneratorInterface;
 use app\Domain\ValueObject\Id;
 use app\Domain\ValueObject\PhotoName;
 use app\Infrastructure\Persistence\ActiveRecord\AuthorRecord;
