@@ -7,6 +7,7 @@ namespace app\Infrastructure\Queue;
 use app\Application\UseCase\Command\Notification\SendNewBookSmsCommand;
 use app\Application\UseCase\Command\Notification\SendNewBookSmsHandler;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\queue\JobInterface;
 
 final readonly class SendNewBookSmsJob implements JobInterface
@@ -17,6 +18,9 @@ final readonly class SendNewBookSmsJob implements JobInterface
     ) {
     }
 
+    /**
+     * @throws InvalidConfigException
+     */
     public function execute($queue): void
     {
         Yii::createObject(SendNewBookSmsHandler::class)

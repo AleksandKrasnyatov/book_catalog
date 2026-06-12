@@ -31,9 +31,11 @@ final readonly class SendNewBookSmsHandler
             return;
         }
 
-        $this->sms->send(new SmsMessage(
+        $message = new SmsMessage(
             $phones,
             sprintf('У автора "%s" новая книга: "%s".', $author->name()->value, $book->title()->value),
-        ));
+        );
+
+        $this->sms->send($message);
     }
 }
