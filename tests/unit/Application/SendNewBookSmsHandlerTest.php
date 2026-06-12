@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace tests\unit\application;
+namespace tests\unit\Application;
 
 use app\Application\UseCase\Command\Notification\SendNewBookSmsCommand;
 use app\Application\UseCase\Command\Notification\SendNewBookSmsHandler;

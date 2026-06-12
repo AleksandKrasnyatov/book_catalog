@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace tests\unit\application;
+namespace tests\unit\Application;
 
 use app\Application\DTO\UploadedFileData;
 use app\Application\UseCase\Command\Book\CreateBookCommand;

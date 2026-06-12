@@ -71,6 +71,11 @@ final class InMemoryAuthorRepository implements AuthorRepositoryInterface
         return $options;
     }
 
+    public function markHasBooks(Id $id): void
+    {
+        $this->authorsWithBooks[$id->value] = true;
+    }
+
     public function count(): int
     {
         return count($this->authors);
